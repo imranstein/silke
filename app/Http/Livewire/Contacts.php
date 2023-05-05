@@ -81,23 +81,23 @@ class Contacts extends Component
     //this is the index method
     public function render()
     {
-        // $birthdays = Contact::where('user_id', auth()->user()->id)->whereRaw('DAYOFYEAR(NOW()) = DAYOFYEAR(dob)')->get();
+        $birthdays = Contact::where('user_id', auth()->user()->id)->whereRaw('DAYOFYEAR(NOW()) = DAYOFYEAR(dob)')->get();
 
-        // $upcomings = Contact::where('user_id', auth()->user()->id)->whereRaw('DAYOFYEAR(NOW()) <= DAYOFYEAR(dob) AND DAYOFYEAR(NOW()) + 5 >= DAYOFYEAR(dob)')->get();
-        // $from = Auth::user()->name;
-        // foreach ($birthdays as $birthday) {
-        //     // send a message using notification mail for the contacts email
-        //     $name = $birthday->name;
-        //     $birthday->notify(new BirthdayWishNotification($from, $name));
-        // }
-        // $user = User::find(auth()->user()->id);
-        // foreach ($upcomings as $upcoming) {
-        //     // send reminder to the auth user about the upcoming birthdays in notification and also mail
-        //     $name = $upcoming->name;
-        //     // just show the Moth and data
-        //     $date = date('M d', strtotime($upcoming->dob));
-        //     $user->notify(new BirthdayReminderNotification($name, $date));
-        // }
+        $upcomings = Contact::where('user_id', auth()->user()->id)->whereRaw('DAYOFYEAR(NOW()) <= DAYOFYEAR(dob) AND DAYOFYEAR(NOW()) + 5 >= DAYOFYEAR(dob)')->get();
+        $from = Auth::user()->name;
+        foreach ($birthdays as $birthday) {
+            // send a message using notification mail for the contacts email
+            $name = $birthday->name;
+            $birthday->notify(new BirthdayWishNotification($from, $name));
+        }
+        $user = User::find(auth()->user()->id);
+        foreach ($upcomings as $upcoming) {
+            // send reminder to the auth user about the upcoming birthdays in notification and also mail
+            $name = $upcoming->name;
+            // just show the Moth and data
+            $date = date('M d', strtotime($upcoming->dob));
+            $user->notify(new BirthdayReminderNotification($name, $date));
+        }
         $contacts = Contact::where('user_id', auth()->user()->id)->search(trim($this->search))->orderBY($this->sortColumn, $this->sortOrder)->paginate($this->paginate);
 
         return view('contact.index', compact('contacts'));
@@ -155,5 +155,4 @@ class Contacts extends Component
         $this->selectAll = true;
         $this->checked = $this->contactsQuery->pluck('id')->map(fn ($item) => (string) $item)->toArray();
     }
-    
 }
