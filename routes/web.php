@@ -50,6 +50,6 @@ Route::middleware([
     Route::get('shared/{id}', [SharedContactController::class, 'show'])->name('shared.show');
     Route::post('acceptContact/{id}', [SharedContactController::class, 'accept'])->name('acceptContact');
     Route::post('rejectContact/{id}', [SharedContactController::class, 'reject'])->name('rejectContact');
-    // Route::get('/profile/change_password', [ProfileController::class, 'changePass'])->name('change.password');
+    Route::get('download', [SharedContactController::class, 'download'])->name('download');
     Route::post('/profile/update_password', [ProfileController::class, 'passwordUpdate'])->name('password.update');
 });

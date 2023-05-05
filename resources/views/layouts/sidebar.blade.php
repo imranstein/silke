@@ -59,6 +59,17 @@
                 </a>
             </li>
             @endcan
+            <li class="nav-item">
+
+                <a class="nav-link" href="/download">
+
+
+                    <i style="color:black;" class="material-icons">download</i>
+
+
+                    <p style="color:black;">Import Sample</p>
+                </a>
+            </li>
 
 
 

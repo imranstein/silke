@@ -42,7 +42,7 @@ class SharedContactController extends Controller
 
     public function show($id)
     {
-        
+
         $contact = Contact::find($id);
 
         return view('contact.shared', compact('contact'));
@@ -77,5 +77,12 @@ class SharedContactController extends Controller
 
         return redirect()->route('contacts')
             ->with('delete', 'Contact Rejected');
+    }
+
+    public function download()
+    {
+        // download contact.xlsx file from public
+       return response()->download(public_path('sample/contacts.xlsx'));
+       
     }
 }
