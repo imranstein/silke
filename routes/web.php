@@ -51,5 +51,6 @@ Route::middleware([
     Route::post('acceptContact/{id}', [SharedContactController::class, 'accept'])->name('acceptContact');
     Route::post('rejectContact/{id}', [SharedContactController::class, 'reject'])->name('rejectContact');
     Route::get('download', [SharedContactController::class, 'download'])->name('download');
+    Route::post('readNotification/{id}', [ContactController::class, 'readNotification'])->name('readNotification');
     Route::post('/profile/update_password', [ProfileController::class, 'passwordUpdate'])->name('password.update');
 });
