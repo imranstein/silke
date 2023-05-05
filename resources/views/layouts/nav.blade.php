@@ -95,7 +95,7 @@
             <span class="navbar-toggler-icon icon-bar"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-end">
-            <form class="navbar-form">
+            {{-- <form class="navbar-form">
                 <div class="input-group no-border">
                     <input type="text" value="" class="form-control" placeholder="Search...">
                     <button type="submit" class="btn btn-white btn-round btn-just-icon">
@@ -103,16 +103,37 @@
                         <div class="ripple-container"></div>
                     </button>
                 </div>
-            </form>
+            </form> --}}
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">
-                        <i class="material-icons">dashboard</i>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#pablo" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @php
+                        $notifications = Auth::user()->unreadNotifications;
+                        @endphp
+                        <i class="material-icons">notifications</i>
+                        <span class="notification">{{ count($notifications); }}</span>
                         <p class="d-lg-none d-md-block">
-                            Stats
+                            Account
                         </p>
                     </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
+
+
+                        @foreach ($notifications as $notification)
+                        <div class="dropdown-item">
+                            {{ $notification->data['data'] }}
+                            <div class="float-right">
+                                <form action="{{ route('acceptContact', [$notification->data['id'], $notification->id]) }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    <button type="submit" class="btn btn-sm btn-success"> <i class="fa fa-check"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                        @endforeach
+                        {{-- <a class="dropdown-item" href="logout" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Log out</a> --}}
+                    </div>
                 </li>
+
 
                 <li class="nav-item dropdown">
                     <a class="nav-link" href="#pablo" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

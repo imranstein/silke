@@ -13,6 +13,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\Front\IndexController;
 use App\Http\Controllers\PublicationController;
 use App\Http\Controllers\MemberProjectsController;
+use App\Http\Controllers\SharedContactController;
 use App\Http\Livewire\Contacts;
 
 /*
@@ -46,6 +47,8 @@ Route::middleware([
     Route::get('contacts', Contacts::class)->name('contacts');
     Route::post('contactImport', [ContactController::class, 'import'])->name('contact.import');
     Route::get('vcf/{id}', [ContactController::class, 'vcf'])->name('vcf');
+    Route::post('shareContact', [SharedContactController::class, 'share'])->name('share.contact');
+    Route::post('acceptContact/{id}/{nid}', [SharedContactController::class, 'accept'])->name('acceptContact');
     // Route::get('/profile/change_password', [ProfileController::class, 'changePass'])->name('change.password');
     Route::post('/profile/update_password', [ProfileController::class, 'passwordUpdate'])->name('password.update');
 });

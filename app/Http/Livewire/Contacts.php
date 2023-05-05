@@ -2,12 +2,15 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\User;
 use App\Models\Contact;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use App\Exports\ContactExport;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\BirthdayWishNotification;
+use App\Notifications\BirthdayReminderNotification;
 
 class Contacts extends Component
 {
@@ -78,6 +81,23 @@ class Contacts extends Component
     //this is the index method
     public function render()
     {
+        $birthdays = Contact::where('user_id', auth()->user()->id)->whereDate('dob', '=', date('Y-m-d'))->get();
+        // upcoming birthday are birthdays that are in the next 5 days
+        $upcomings = Contact::where('user_id', auth()->user()->id)->whereDate('dob', '>=', date('Y-m-d'))->whereDate('dob', '<=', date('Y-m-d', strtotime('+5 days')))->get();
+        $from = Auth::user()->name;
+        foreach ($birthdays as $birthday) {
+            // send a message using notification mail for the contacts email
+            $name = $birthday->name;
+            $birthday->notify(new BirthdayWishNotification($from, $name));
+        }
+        $user = User::find(auth()->user()->id);
+        foreach ($upcomings as $upcoming) {
+            // send reminder to the auth user about the upcoming birthdays in notification and also mail
+            $name = $upcoming->name;
+            // just show the Moth and data
+            $date = date('M d', strtotime($upcoming->dob));
+            $user->notify(new BirthdayReminderNotification($name, $date));
+        }
         $contacts = Contact::where('user_id', auth()->user()->id)->search(trim($this->search))->orderBY($this->sortColumn, $this->sortOrder)->paginate($this->paginate);
 
         return view('contact.index', compact('contacts'));

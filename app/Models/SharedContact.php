@@ -7,6 +7,7 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use RalphJSmit\Laravel\SEO\Support\HasSEO;
 
@@ -16,6 +17,7 @@ class SharedContact extends Model
     use HasSEO;
     use HasFactory;
     use LogsActivity;
+    use Notifiable;
 
     protected $fillable = [
         'from_user_id',
@@ -56,5 +58,5 @@ class SharedContact extends Model
     {
         return $this->belongsTo(User::class, 'to_user_id', 'id');
     }
-    
+
 }

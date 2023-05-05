@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use App\Imports\ContactImport;
@@ -70,8 +71,9 @@ class ContactController extends Controller
     public function show($id)
     {
         $contact = Contact::findOrFail($id);
+        $users = User::whereNotIn('id', [auth()->user()->id])->get();
 
-        return view('contact.show', compact('contact'));
+        return view('contact.show', compact('contact', 'users'));
     }
 
     public function edit($id)

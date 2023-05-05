@@ -9,6 +9,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use RalphJSmit\Laravel\SEO\Support\HasSEO;
+use Illuminate\Notifications\Notifiable;
 
 
 class Contact extends Model
@@ -16,6 +17,7 @@ class Contact extends Model
     use HasSEO;
     use HasFactory;
     use LogsActivity;
+    use Notifiable;
 
     protected $fillable = [
         'user_id', //added by me

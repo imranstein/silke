@@ -2,6 +2,7 @@
     <div>
         <div class="content">
             <div class="container-fluid">
+                @include('contact.share')
                 <div class="row">
                     <div class="card">
                         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
@@ -12,9 +13,9 @@
                                     </div>
                                     <div class="col-md-6">
                                         <h2>{{ $contact->name }}</h2>
-                                        <p><strong>Email:</strong> {{ $contact->email }}</p>
-                                        <p><strong>Phone:</strong> {{ $contact->phone }}</p>
-                                        <p><strong>Alternate Phone:</strong> {{ $contact->alt_phone }}</p>
+                                        <p><strong>Email:</strong> <a href="mailto:{{ $contact->email }}">{{ $contact->email }}</a></p>
+                                        <p><strong>Phone:</strong><a href="tel:{{ $contact->phone }}">{{ $contact->phone }}</a></p>
+                                        <p><strong>Alternate Phone:</strong> <a href="tel:{{ $contact->alt_phone }}">{{ $contact->alt_phone }}</a></p>
                                         <p><strong>Address:</strong> {{ $contact->address }}</p>
                                         <p><strong>Date Of Birth:</strong> {{ $contact->dob }}</p>
                                     </div>
@@ -23,7 +24,7 @@
                             <div class="card-footer">
                                 <div class="row mt-4">
                                     <div class="col-md-12">
-                                        <button type="button" class="btn btn-primary mr-2">Share</button>
+                                        <a class="btn btn-primary mr-2" data-bs-toggle="modal" data-bs-target="#exampleModal">Share</a>
                                         <a href="{{ route('vcf', $contact->id) }}" class="btn btn-danger">Download VCF</a>
                                     </div>
                                 </div>
