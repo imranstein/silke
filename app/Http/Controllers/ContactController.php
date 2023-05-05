@@ -164,7 +164,7 @@ class ContactController extends Controller
         $notification = Auth::user()->notifications->where('id', $id)->first();
         if ($notification->type == 'App\Notifications\ContactShareNotification') {
             $notification->markAsRead();
-            return redirect()->route('shared', $notification->data['id']);
+            return redirect()->route('shared.show', $notification->data['id']);
         }
         $notification->markAsRead();
     }

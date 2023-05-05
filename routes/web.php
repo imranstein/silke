@@ -48,9 +48,9 @@ Route::middleware([
     Route::get('vcf/{id}', [ContactController::class, 'vcf'])->name('vcf');
     Route::post('shareContact', [SharedContactController::class, 'share'])->name('share.contact');
     Route::get('shared/{id}', [SharedContactController::class, 'show'])->name('shared.show');
-    Route::post('acceptContact/{id}', [SharedContactController::class, 'accept'])->name('acceptContact');
-    Route::post('rejectContact/{id}', [SharedContactController::class, 'reject'])->name('rejectContact');
+    Route::get('acceptContact/{id}', [SharedContactController::class, 'accept'])->name('acceptContact');
+    Route::get('rejectContact/{id}', [SharedContactController::class, 'reject'])->name('rejectContact');
     Route::get('download', [SharedContactController::class, 'download'])->name('download');
-    Route::post('readNotification/{id}', [ContactController::class, 'readNotification'])->name('readNotification');
+    Route::get('readNotification/{id}', [ContactController::class, 'readNotification'])->name('readNotification');
     Route::post('/profile/update_password', [ProfileController::class, 'passwordUpdate'])->name('password.update');
 });
