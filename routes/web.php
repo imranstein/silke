@@ -48,7 +48,9 @@ Route::middleware([
     Route::post('contactImport', [ContactController::class, 'import'])->name('contact.import');
     Route::get('vcf/{id}', [ContactController::class, 'vcf'])->name('vcf');
     Route::post('shareContact', [SharedContactController::class, 'share'])->name('share.contact');
-    Route::post('acceptContact/{id}/{nid}', [SharedContactController::class, 'accept'])->name('acceptContact');
+    Route::get('shared/{id}', [SharedContactController::class, 'show'])->name('shared.show');
+    Route::post('acceptContact/{id}', [SharedContactController::class, 'accept'])->name('acceptContact');
+    Route::post('rejectContact/{id}', [SharedContactController::class, 'reject'])->name('rejectContact');
     // Route::get('/profile/change_password', [ProfileController::class, 'changePass'])->name('change.password');
     Route::post('/profile/update_password', [ProfileController::class, 'passwordUpdate'])->name('password.update');
 });

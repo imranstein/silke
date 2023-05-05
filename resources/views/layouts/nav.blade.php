@@ -121,13 +121,10 @@
 
                         @foreach ($notifications as $notification)
                         <div class="dropdown-item">
-                            {{ $notification->data['data'] }}
-                            <div class="float-right">
-                                <form action="{{ route('acceptContact', [$notification->data['id'], $notification->id]) }}" method="POST" style="display: inline;">
-                                    @csrf
-                                    <button type="submit" class="btn btn-sm btn-success"> <i class="fa fa-check"></i></button>
-                                </form>
-                            </div>
+                            <a href="{{ route('readNotification',  $notification->id) }}" class="text-decoration-none">
+                                {{ $notification->data['data'] }}
+                            </a>
+
                         </div>
                         @endforeach
                         {{-- <a class="dropdown-item" href="logout" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Log out</a> --}}

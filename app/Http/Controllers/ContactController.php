@@ -158,4 +158,14 @@ class ContactController extends Controller
 
         return redirect()->route('contacts');
     }
+
+    public function readNotification($id)
+    {
+        $notification = Auth::user()->notifications->where('id', $id)->first();
+        if ($notification->type == 'App\Notifications\ContactShareNotification') {
+            $notification->markAsRead();
+            return redirect()->route('shared', $notification->data['id']);
+        }
+        $notification->markAsRead();
+    }
 }

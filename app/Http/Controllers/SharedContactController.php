@@ -39,7 +39,15 @@ class SharedContactController extends Controller
             ->with('update', 'Contact shared,Wait For Acceptance');
     }
 
-    public function accept($id, $nid)
+
+    public function show($id)
+    {
+        
+        $contact = Contact::find($id);
+
+        return view('contact.shared', compact('contact'));
+    }
+    public function accept($id)
     {
         $sharedContact = SharedContact::find($id);
         $sharedContact->accepted_at = now();
@@ -57,12 +65,17 @@ class SharedContactController extends Controller
             'dob' => $contact->dob,
             'image' => $contact->image,
         ]);
-        if ($nid != null) {
-            $notification = Auth::user()->notifications->where('id', $nid)->first();
-            $notification->markAsRead();
-        }
 
         return redirect()->route('contacts')
             ->with('success', 'Contact Accepted');
+    }
+
+    public function reject($id)
+    {
+        $sharedContact = SharedContact::find($id);
+        $sharedContact->delete();
+
+        return redirect()->route('contacts')
+            ->with('delete', 'Contact Rejected');
     }
 }
