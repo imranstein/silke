@@ -81,9 +81,9 @@ class Contacts extends Component
     //this is the index method
     public function render()
     {
-        $birthdays = Contact::where('user_id', auth()->user()->id)->whereDate('dob', '=', date('Y-m-d'))->get();
-        // upcoming birthday are birthdays that are in the next 5 days
-        $upcomings = Contact::where('user_id', auth()->user()->id)->whereDate('dob', '>=', date('Y-m-d'))->whereDate('dob', '<=', date('Y-m-d', strtotime('+5 days')))->get();
+        $birthdays = Contact::where('user_id', auth()->user()->id)->whereRaw('DAYOFYEAR(NOW()) = DAYOFYEAR(dob)')->get();
+
+        $upcomings = Contact::where('user_id', auth()->user()->id)->whereRaw('DAYOFYEAR(NOW()) <= DAYOFYEAR(dob) AND DAYOFYEAR(NOW()) + 5 >= DAYOFYEAR(dob)')->get();
         $from = Auth::user()->name;
         foreach ($birthdays as $birthday) {
             // send a message using notification mail for the contacts email

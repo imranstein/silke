@@ -15,7 +15,7 @@ class MyScheduledTask extends Command
 
     public function handle()
     {
-        $birthdays = Contact::whereDate('dob', '=', date('Y-m-d'))->get();
+        $birthdays = Contact::whereRaw('DAYOFYEAR(NOW()) = DAYOFYEAR(dob)')->get();
 
         foreach ($birthdays as $birthday) {
             $from = User::find($birthday->user_id)->name;
