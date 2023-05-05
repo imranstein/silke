@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Livewire\Profile;
 use App\Http\Livewire\Students;
 use Illuminate\Support\Facades\Route;
@@ -36,9 +37,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/', DashboardController::class)->name('dashboard');
     Route::get('students', Students::class)->name('students');
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
