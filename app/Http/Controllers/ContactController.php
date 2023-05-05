@@ -167,5 +167,7 @@ class ContactController extends Controller
             return redirect()->route('shared.show', $notification->data['id']);
         }
         $notification->markAsRead();
+
+        return redirect()->route('contacts');
     }
 }
