@@ -28,6 +28,8 @@ class Contact extends Model
         'address',
         'dob',
         'image',
+        'latitude',
+        'longitude',
     ];
 
     public function scopeSearch($query, $term)

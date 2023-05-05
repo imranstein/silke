@@ -49,6 +49,8 @@ class ContactController extends Controller
             'address' => 'nullable|string|max:255',
             'dob' => 'nullable|date|before:today',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:20048',
+            'latitude' => 'nullable|numeric|min:-90|max:90',
+            'longitude' => 'nullable|numeric|min:-180|max:180',
         ]);
 
         $contact = new Contact($validated);

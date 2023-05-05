@@ -25,6 +25,8 @@ class ContactFactory extends Factory
             'address' => $this->faker->address(),
             'dob' => $this->faker->date(),
             'image' => $this->faker->imageUrl(),
+            'latitude' => $this->faker->latitude(),
+            'longitude' => $this->faker->longitude(),
         ];
     }
 }

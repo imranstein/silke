@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->date('dob')->nullable();
             $table->string('image')->nullable();
+            $table->decimal('latitude', 10, 7)->nullable();
+            $table->decimal('longitude', 10, 7)->nullable();
             $table->timestamps();
         });
     }

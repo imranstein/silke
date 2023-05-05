@@ -33,8 +33,7 @@
                         </div>
                     </div>
 
-
-
+                        <div id="map"></div>
 
                 </div>
             </div>
@@ -42,3 +41,31 @@
     </div>
 </x-app-layout>
 {{-- @endsection --}}
+@section('script')
+<script>
+    function initMap() {
+        // Define map options
+        var mapOptions = {
+            center: {
+                lat: {{  $contact -> latitude }}
+                , lng: {{ $contact -> longitude }}
+            }
+            , zoom: 8
+        };
+
+        // Create a new map object
+        var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+        // Add a marker to the map
+        var marker = new google.maps.Marker({
+            position: {
+                lat: {{  $contact -> latitude }}
+                , lng: {{  $contact -> longitude }}
+            }
+            , map: map
+            , title: "{{ $contact->name }}"
+        });
+    }
+
+</script>
+@endsection

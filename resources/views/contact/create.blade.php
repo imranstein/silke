@@ -52,9 +52,42 @@
             <input type="file" class="form-control" id="image" name="image" placeholder="Enter Profile Image">
         </div>
     </div>
+    <input type="hidden" name="latitude" id="latitude">
+    <input type="hidden" name="longitude" id="longitude">
+    <div id="map"></div>
 
     <div class="col-xs-12 col-sm-12 col-md-12 text-center mt-3">
         <button type="submit" class="btn btn-primary">Submit</button>
     </div>
 </form>
+@endsection
+
+@section('script')
+<script>
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: {
+                lat: -34.397
+                , lng: 150.644
+            }
+            , zoom: 8
+        });
+
+        google.maps.event.addListener(map, 'click', function(event) {
+            var latitude = event.latLng.lat();
+            var longitude = event.latLng.lng();
+
+            document.getElementById('latitude').value = latitude;
+            document.getElementById('longitude').value = longitude;
+        });
+    }
+
+    // Wait for the Google Maps API to load before calling initMap()
+    $(document).ready(function() {
+        if (typeof google !== 'undefined') {
+            google.maps.event.addDomListener(window, 'load', initMap);
+        }
+    });
+
+</script>
 @endsection

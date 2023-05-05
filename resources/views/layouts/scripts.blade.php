@@ -34,7 +34,9 @@
 <!-- Library for adding dinamically elements -->
 <script src="{{ asset('material') }}/js/plugins/arrive.min.js"></script>
 <!--  Google Maps Plugin    -->
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE'"></script>
+{{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
+<script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback" async defer></script>
+
 <!-- Chartist JS -->
 <script src="{{ asset('material') }}/js/plugins/chartist.min.js"></script>
 <!--  Notifications Plugin    -->
