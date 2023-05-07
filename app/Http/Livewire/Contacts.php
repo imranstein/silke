@@ -105,9 +105,9 @@ class Contacts extends Component
 
     //this checks if the check box is activated
 
-    public function isChecked($student_id)
+    public function isChecked($contact_id)
     {
-        return in_array($student_id, $this->checked);
+        return in_array($contact_id, $this->checked);
     }
 
     //this is to delete

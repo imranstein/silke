@@ -11,50 +11,64 @@ use App\Notifications\ContactShareNotification;
 
 class SharedContactController extends Controller
 {
+
     public function share(Request $request)
     {
-
-        $fromUser = Auth::user()->id;
-        $contactId = $request->contact_id;
-        $contact = Contact::find($contactId);
-        $name = $contact->name;
-        $phone = $contact->phone;
-        $from = Auth::user()->name;
-
-        foreach ($request->toUsers as $user) {
-
-            $sharedContact = SharedContact::create([
-                'from_user_id' => $fromUser,
-                'to_user_id' => $user,
-                'contact_id' => $contactId,
-            ]);
-            $id = $sharedContact->id;
-            // send notification about a contact being share with them
-            $to = User::find($user);
-            $to->notify(new ContactShareNotification($from, $name, $phone, $id));
+        // Get the ID of the authenticated user
+        $fromUser = Auth::id();
+    
+        // Find the contact by ID or throw an exception
+        $contact = Contact::findOrFail($request->contact_id);
+    
+        // Create an array of data to be used for creating shared contacts
+        $sharedData = [
+            'from_user_id' => $fromUser,
+            'contact_id' => $contact->id,
+        ];
+    
+        // Loop through each user ID in the request and create a shared contact for them
+        foreach ($request->toUsers as $userId) {
+            // Add the current user ID to the shared data array
+            $sharedData['to_user_id'] = $userId;
+    
+            // Create a new shared contact using the shared data array
+            $sharedContact = SharedContact::create($sharedData);
+    
+            // Send a notification to the user about the contact being shared
+            User::find($userId)->notify(new ContactShareNotification(Auth::user()->name, $contact->name, $contact->phone, $sharedContact->id));
         }
-
-
-        return redirect()->route('contact.show', $contactId)
-            ->with('update', 'Contact shared,Wait For Acceptance');
+    
+        // Redirect back to the contact page with a message indicating that the contact has been shared
+        return redirect()->route('contact.show', $contact->id)->with('update', 'Contact shared. Please wait for acceptance.');
     }
+    
 
 
+    /**
+     * Show a shared contact.
+     *
+     * @param int $id The ID of the shared contact.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View The shared contact view.
+     */
     public function show($id)
     {
+        $sharedContact = SharedContact::with('contact')->findOrFail($id);
 
-        $contact = Contact::find($id);
-
-        return view('contact.shared', compact('contact'));
+        return view('contact.shared', ['contact' => $sharedContact->contact, 'id' => $id]);
     }
+
     public function accept($id)
     {
+        // Find the shared contact by ID or return null
         $sharedContact = SharedContact::find($id);
-        $sharedContact->accepted_at = now();
-        $sharedContact->save();
-
+    
+        // Update the accepted_at field of the shared contact to the current time
+        $sharedContact->update(['accepted_at' => now()]);
+    
+        // Find the contact associated with the shared contact or return null
         $contact = Contact::find($sharedContact->contact_id);
-
+    
+        // Create a new contact using the user_id, name, email, phone, alt_phone, address, dob, and image fields from the original contact
         $newContact = Contact::create([
             'user_id' => $sharedContact->to_user_id,
             'name' => $contact->name,
@@ -65,24 +79,30 @@ class SharedContactController extends Controller
             'dob' => $contact->dob,
             'image' => $contact->image,
         ]);
-
+    
+        // Redirect to the contacts page with a success message
         return redirect()->route('contacts')
             ->with('success', 'Contact Accepted');
     }
+    
 
     public function reject($id)
     {
+        // Find the shared contact by ID or return null
         $sharedContact = SharedContact::find($id);
+    
+        // Delete the shared contact from the database
         $sharedContact->delete();
-
+    
+        // Redirect to the contacts page with a delete message
         return redirect()->route('contacts')
             ->with('delete', 'Contact Rejected');
     }
+    
 
     public function download()
     {
         // download contact.xlsx file from public
-       return response()->download(public_path('sample/contacts.xlsx'));
-       
+        return response()->download(public_path('sample/contacts.xlsx'));
     }
 }

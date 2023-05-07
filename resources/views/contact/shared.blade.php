@@ -23,8 +23,8 @@
                             <div class="card-footer">
                                 <div class="row mt-4">
                                     <div class="col-md-12">
-                                        <a class="btn btn-primary mr-2" href="{{ route('acceptContact', $contact->id) }}">Accept</a>
-                                        <a href="{{ route('acceptContact', $contact->id) }}" class="btn btn-danger">Reject</a>
+                                        <a class="btn btn-primary mr-2" href="{{ route('acceptContact', $id) }}">Accept</a>
+                                        <a href="{{ route('acceptContact', $id) }}" class="btn btn-danger">Reject</a>
                                     </div>
                                 </div>
                             </div>

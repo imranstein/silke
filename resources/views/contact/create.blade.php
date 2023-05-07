@@ -67,8 +67,8 @@
     function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
             center: {
-                lat: -34.397
-                , lng: 150.644
+                lat: 8.0557
+                , lng: 38.22892
             }
             , zoom: 8
         });
@@ -79,6 +79,8 @@
 
             document.getElementById('latitude').value = latitude;
             document.getElementById('longitude').value = longitude;
+
+            console.log(latitude, longitude)
         });
     }
 

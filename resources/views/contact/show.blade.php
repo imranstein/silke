@@ -33,39 +33,65 @@
                         </div>
                     </div>
 
-                        <div id="map"></div>
+                    <div id="map" class="col-8"></div>
 
                 </div>
             </div>
         </div>
     </div>
+    @section('script')
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {
+                   lat: {{ $contact->latitude }},
+                   lng: {{ $contact->longitude }}
+                }
+                , zoom: 8
+            });
+
+            var marker = new google.maps.Marker({
+                position: {
+                    lat: {{ $contact->latitude }},
+                    lng: {{ $contact->longitude }}
+                }
+                , map: map
+                , title: '{{ $contact->name }}'
+            });
+
+            // Get your current location using the Geolocation API
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var myLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+                    // Get directions from your location to the marker's location
+                    var directionsService = new google.maps.DirectionsService();
+                    var directionsRenderer = new google.maps.DirectionsRenderer();
+                    directionsRenderer.setMap(map);
+
+                    var request = {
+                        origin: myLocation
+                        , destination: marker.getPosition()
+                        , travelMode: google.maps.TravelMode.DRIVING
+                    };
+
+                    directionsService.route(request, function(result, status) {
+                        if (status == google.maps.DirectionsStatus.OK) {
+                            directionsRenderer.setDirections(result);
+                        }
+                    });
+                });
+            }
+        }
+
+        // Wait for the Google Maps API to load before calling initMap()
+        $(document).ready(function() {
+            if (typeof google !== 'undefined') {
+                google.maps.event.addDomListener(window, 'load', initMap);
+            }
+        });
+
+    </script>
+    @endsection
 </x-app-layout>
 {{-- @endsection --}}
-@section('script')
-<script>
-    function initMap() {
-        // Define map options
-        var mapOptions = {
-            center: {
-                lat: {{  $contact -> latitude }}
-                , lng: {{ $contact -> longitude }}
-            }
-            , zoom: 8
-        };
-
-        // Create a new map object
-        var map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
-        // Add a marker to the map
-        var marker = new google.maps.Marker({
-            position: {
-                lat: {{  $contact -> latitude }}
-                , lng: {{  $contact -> longitude }}
-            }
-            , map: map
-            , title: "{{ $contact->name }}"
-        });
-    }
-
-</script>
-@endsection
