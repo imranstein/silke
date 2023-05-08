@@ -153,13 +153,7 @@
                                             @if($this->showColumn('Phone'))
                                             <th>Phone <i class="fa fa-fw fa-sort" wire:click="sortBy('phone')"></i></th>
                                             @endif
-                                            @if($this->showColumn('Alt_Phone'))
-                                            <th>Alternative Phone <i class="fa fa-fw fa-sort" wire:click="sortBy('alt_phone')"></i></th>
-                                            @endif
-
-                                            @if($this->showColumn('Address'))
-                                            <th>Address <i class="fa fa-fw fa-sort" wire:click="sortBy('address')"></i></th>
-                                            @endif
+                                           
 
                                             <th>Actions</th>
                                         </tr>
@@ -185,13 +179,7 @@
                                             @if($this->showColumn('Phone'))
                                             <td class="border px-2 py-2">{{ $contact->phone}}</td>
                                             @endif
-                                            @if($this->showColumn('Alt_Phone'))
-                                            <td class="border px-2 py-2">{{ $contact->alt_phone}}</td>
-                                            @endif
-                                            @if($this->showColumn('Address'))
-                                            <td class="border px-2 py-2">{{ $contact->address}}</td>
-                                            @endif
-
+                                           
 
                                             <td class="border px-2 py-2">
                                                 @can('contact-list')

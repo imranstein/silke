@@ -47,7 +47,7 @@ class Contacts extends Component
 
     public $selectAll = false;
 
-    public $columns = ['Id', 'Name', 'Email', 'Phone', 'Alt_Phone', 'Address'];
+    public $columns = ['Id', 'Name', 'Email', 'Phone'];
 
     public $selectedColumns = [];
 
