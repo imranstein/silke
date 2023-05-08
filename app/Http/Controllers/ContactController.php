@@ -94,6 +94,9 @@ class ContactController extends Controller
     {
 
         $contact = Contact::findOrFail($id);
+        if ($contact->user_id != Auth::user()->id) {
+            return redirect()->route('contacts')->with('delete', 'You are not authorized to update this contact');
+        }
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -125,6 +128,9 @@ class ContactController extends Controller
     public function destroy($id)
     {
         $contact = Contact::findOrFail($id);
+        if ($contact->user_id != Auth::user()->id) {
+            return redirect()->route('contacts')->with('delete', 'You are not authorized to delete this contact');
+        }
         $contact->delete();
 
         return redirect()->route('contacts')->with('delete', 'Contact Deleted successfully');

@@ -106,7 +106,7 @@
 
                                 <strong>Role:</strong>
 
-                                {!! Form::select('roles[]', $roles,[], array('class' => 'form-control','multiple')) !!}
+                                {!! Form::select('roles', $roles,[], array('class' => 'form-select')) !!}
 
                             </div>
 
